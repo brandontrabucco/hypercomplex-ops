@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from time import time
 
 class HypercomplexTest(tf.test.TestCase):
 
@@ -144,6 +145,46 @@ class HypercomplexTest(tf.test.TestCase):
       print(";;;;;;;;;;;;;;;;;;;;;;;;;")
       print("All GPU tests cases pass!")
       print(";;;;;;;;;;;;;;;;;;;;;;;;;")
+
+  def testHypercomplexSpeed(self):
+
+    print(";;;;;;;;;;;;;;;;;;;;;;;;;;;")
+    print("Beginning speed comparison.")
+    print(";;;;;;;;;;;;;;;;;;;;;;;;;;;")
+
+    test_input = np.random.normal(0, 1, (8, 512))
+    other_input = np.random.normal(0, 1, (8, 512))
+
+    with self.test_session(use_gpu=False):
+      self.module = tf.load_op_library(
+        '/home/brand/tensorflow/bazel-bin/' + 
+        'tensorflow/core/user_ops/hypercomplex.so')
+
+      start_time = time() * 1000
+      self.tfMultiply(test_input, other_input)
+      end_time = time() * 1000
+      cpu_time = end_time - start_time
+      print("CPU took:", cpu_time, "msecs")
+
+    with self.test_session(use_gpu=True):
+      self.module = tf.load_op_library(
+        '/home/brand/tensorflow/bazel-bin/' + 
+        'tensorflow/core/user_ops/hypercomplex.so')
+
+      start_time = time() * 1000
+      self.tfMultiply(test_input, other_input)
+      end_time = time() * 1000
+      gpu_time = end_time - start_time
+      print("GPU took:", gpu_time, "msecs")
+
+    if gpu_time < cpu_time:
+      print("GPU is", cpu_time - gpu_time, "msecs faster than CPU!")
+    else:
+      print("GPU is", gpu_time - cpu_time, "msecs slower than CPU!")
+
+    print(";;;;;;;;;;;;;;;;;;;;;;;;;;")
+    print("Speed comparison finished.")
+    print(";;;;;;;;;;;;;;;;;;;;;;;;;;")
 
 if __name__ == "__main__":
   tf.test.main()

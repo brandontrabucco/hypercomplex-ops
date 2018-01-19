@@ -79,7 +79,7 @@ namespace tensorflow {
                 );
             }
         }
-    } // T* partial_cayley_dickson_gpu
+    } // T* partial_cayley_dickson
 
     template<typename Device, typename T>
     class HypercomplexMultiplyOp : public OpKernel {
@@ -188,8 +188,8 @@ namespace tensorflow {
         #undef DECLARE_GPU_SPEC
     } // namespace functor
 
-    #define REGISTER_GPU_KERNEL(T)                                               \
-    REGISTER_KERNEL_BUILDER(                                                     \
+    #define REGISTER_GPU_KERNEL(T)                                              \
+    REGISTER_KERNEL_BUILDER(                                                    \
         Name("HypercomplexMultiply").Device(DEVICE_GPU).TypeConstraint<T>("T"), \
         HypercomplexMultiplyOp<GPUDevice, T>);
 

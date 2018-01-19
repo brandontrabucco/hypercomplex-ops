@@ -19,12 +19,14 @@ namespace tensorflow {
 
         void Compute(OpKernelContext* context) override {
             const Tensor& input = context->input(0);
+            int hypercomplex_size = input.dim_size(input.dims() - 1);
             OP_REQUIRES(
                 context,
-                (std::cos(
-                    6.28318530718 *
-                    std::log(input.dim_size(input.dims() - 1)) /
-                    std::log(2)) > 0.9),
+                (std::pow(
+                    2,
+                    std::round(
+                        std::log(hypercomplex_size) /
+                        std::log(2))) == hypercomplex_size),
                 errors::InvalidArgument(
                     "final dim must be 2**n for integer n >= 0, but got shape ",
                     input.shape().DebugString()
@@ -40,7 +42,6 @@ namespace tensorflow {
                     &output)
             );
 
-            int hypercomplex_size = input.dim_size(input.dims() - 1);
             int remaining_size = 1;
             for (int i = 0; i < input.dims() - 1; i++) {
                 remaining_size *= input.dim_size(i);

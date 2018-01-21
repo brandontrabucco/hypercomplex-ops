@@ -152,8 +152,8 @@ class HypercomplexTest(tf.test.TestCase):
     print("Beginning speed comparison.")
     print(";;;;;;;;;;;;;;;;;;;;;;;;;;;")
 
-    test_input = np.random.normal(0, 1, (8, 512))
-    other_input = np.random.normal(0, 1, (8, 512))
+    test_input = np.random.normal(0, 1, (100, 100, 100, 2))
+    other_input = np.random.normal(0, 1, (100, 100, 100, 2))
 
     with self.test_session(use_gpu=False):
       self.module = tf.load_op_library(

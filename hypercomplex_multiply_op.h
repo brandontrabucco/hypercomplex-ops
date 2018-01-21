@@ -26,6 +26,10 @@ namespace tensorflow {
                 const int hypercomplex_size,
                 const int remaining_size
             ) {
+                int memory_size = hypercomplex_size * hypercomplex_size * remaining_size;
+                bool* sign_left = new bool[memory_size];
+                bool* sign_right = new bool[memory_size];
+
                 for (
                     int i = 0;
                     i < hypercomplex_size * remaining_size;
@@ -34,29 +38,25 @@ namespace tensorflow {
                     int repositioned_index = (int)(i / hypercomplex_size) * hypercomplex_size;
                     const T* repositioned_tensor_left = &(in_tensor_left[repositioned_index]);
                     const T* repositioned_tensor_right = &(in_tensor_right[repositioned_index]);
-                    bool* sign_left = new bool[hypercomplex_size];
-                    bool* sign_right = new bool[hypercomplex_size];
+                    bool* repositioned_sign_left = &(sign_left[i * hypercomplex_size]);
+                    bool* repositioned_sign_right = &(sign_right[i * hypercomplex_size]);
 
-                    [hypercomplex_size](bool* _sl, bool* _sr){
-                        for (int j = 0; j < hypercomplex_size; j++) {
-                            _sl[j] = false;
-                            _sr[j] = false;
-                        }
-                    }(
-                        sign_left,
-                        sign_right);
+                    for (int j = 0; j < hypercomplex_size; j++) {
+                        repositioned_sign_left[j] = false;
+                        repositioned_sign_right[j] = false;
+                    }
 
                     out_tensor[i] = partial_cayley_dickson<T>(
                         repositioned_tensor_left,
                         repositioned_tensor_right,
-                        sign_left,
-                        sign_right,
+                        repositioned_sign_left,
+                        repositioned_sign_right,
                         (i % hypercomplex_size),
                         hypercomplex_size);
-
-                    delete[] sign_left;
-                    delete[] sign_right;
                 }
+
+                delete[] sign_left;
+                delete[] sign_right;
             }
         };
     } // namespace functor

@@ -7,6 +7,7 @@ tf_custom_op_library(
         "hypercomplex_conjugate_op.h",
         "hypercomplex_multiply_op.cc",
         "hypercomplex_multiply_op.h",
+        "hypercomplex_grad.cc",
     ],
     gpu_srcs = [
         "hypercomplex_conjugate_op_gpu.cu.cc",

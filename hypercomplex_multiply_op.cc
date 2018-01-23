@@ -179,7 +179,7 @@ namespace tensorflow {
             int target_axis = num_dims - 1;
             int* shape = new int[num_dims];
             for (int i = 0; i < num_dims; i++) {
-                shape[i] = input_left.dim_size(1);
+                shape[i] = input_left.dim_size(i);
             }
 
             int hypercomplex_size = input_left.dim_size(input_left.dims() - 1);

@@ -2,9 +2,34 @@
 #define TENSORFLOW_KERNELS_HYPERCOMPLEX_MULTIPLY_OP_H_
 
 namespace tensorflow {
+
+    void index_to_shape(
+        int* output,
+        int* shape,
+        int skip_axis,
+        int target,
+        int dims
+    );
+
+    int shape_to_index(
+        int* shape,
+        int* select,
+        int dims
+    );
+
+    double get_helper(
+        double* input,
+        int* shape,
+        int hypercomplex_axis,
+        int hypercomplex_index,
+        int remaining_index,
+        int dims
+    );
+
     bool* quick_conjugate(
         bool* input,
-        const int length);
+        const int length
+    );
 
     template<typename T>
     T partial_cayley_dickson(

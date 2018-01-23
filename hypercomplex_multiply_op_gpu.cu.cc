@@ -7,7 +7,7 @@
 namespace tensorflow {
     typedef Eigen::GpuDevice GPUDevice;
 
-    __device__ void index_to_shape(
+    __device__ void index_to_shape_gpu(
         int* output,
         int* shape,
         int skip_axis,
@@ -15,7 +15,7 @@ namespace tensorflow {
         int dims
     ) {
         if (skip_axis == 0) {
-            index_to_shape(
+            index_to_shape_gpu(
                 &(output[1]),
                 &(shape[1]),
                 (skip_axis - 1),
@@ -27,7 +27,7 @@ namespace tensorflow {
             output[0] = target;
         } else {
             output[0] = target % shape[0];
-            index_to_shape(
+            index_to_shape_gpu(
                 &(output[1]),
                 &(shape[1]),
                 (skip_axis - 1),
@@ -36,7 +36,7 @@ namespace tensorflow {
         }
     }
 
-    __device__ int shape_to_index(
+    __device__ int shape_to_index_gpu(
         int* shape,
         int* select,
         int dims
@@ -50,7 +50,7 @@ namespace tensorflow {
         } return result;
     }
 
-    __device__ double get_helper(
+    __device__ double get_helper_gpu(
         double* input,
         int* shape,
         int hypercomplex_axis,
@@ -60,13 +60,13 @@ namespace tensorflow {
     ) {
         int* select_shape = new int[dims];
         select_shape[hypercomplex_axis] = hypercomplex_index;
-        index_to_shape(
+        index_to_shape_gpu(
             select_shape,
             shape,
             hypercomplex_axis,
             remaining_index,
             dims);
-        int index = shape_to_index(
+        int index = shape_to_index_gpu(
             shape,
             select_shape,
             dims);

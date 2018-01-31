@@ -8,7 +8,6 @@ The Shared Library included in this repository was compiled on 64-bit Ubuntu 16.
 
 1. Download and install tensorflow.
 2. Download the hypercomplex.so file.
-3. Place hypercomplex.so in the same diretcory as project.
 
 ## Usage
 

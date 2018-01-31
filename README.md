@@ -6,8 +6,20 @@ Compiled with 64-bit Ubuntu 16.04, GCC 5.4, NVIDIA Driver 387, CUDA Toolkit 9.1,
 
 ## Setup
 
-1. Download and install tensorflow.
-2. Download the hypercomplex.so file.
+### If you have the same specs as above
+
+1. Download and install tensorflow with GPU support.
+2. Download the hypercomplex.so file and place in a known folder.
+
+### If you have different specs
+
+1. Download the tensorflow source, compile tensorflow with GPU support, and install the pip package
+2. Download the hypercomplex source and place in tensorflow/tenorflow/core/user_ops.
+3. Compile the custom op library, and place in a known folder.
+
+```
+
+```
 
 ## Usage
 

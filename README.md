@@ -1,8 +1,8 @@
 # Hypercomplex Ops
 
-Utility functions for TensorFlow that enable working with differentiable hypercomplex numbers.
+This project contains utility functions for manipulating vectors of hypertcomplkex numbers (uaternions, octonions, sedenions, etc). Currently only multiplication and conjugation are supported.
 
-The Shared Library included in this repository was compiled on 64-bit Ubuntu 16.04, using GCC 5.4, NVIDIA Graphics Driver 387, CUDA Toolkit 9.1, and cuDNN 7.0.5, and has been tested successfully on an NVIDIA GeForce 1050 Ti 4GB GPU.
+Compiled with 64-bit Ubuntu 16.04, GCC 5.4, NVIDIA Driver 387, CUDA Toolkit 9.1, cuDNN 7.0.5, NVIDIA GeForce 1050 Ti.
 
 ## Setup
 

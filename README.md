@@ -19,7 +19,7 @@ Compiled with 64-bit Ubuntu 16.04, GCC 5.4, NVIDIA Driver 387, CUDA Toolkit 9.1,
 
 ## Usage
 
-To use this library, you must first import tensorflow, and then import the operator library using load_custom_op_library. This method returns a handle to the custom operations in our library.
+To use this library, you must first import tensorflow, and then import the operator library using load_op_library. This method returns a handle to the custom operations in our library.
 
 ```
 import tensorflow as tf
@@ -35,7 +35,7 @@ c = HCX.hypercomplex_multiply(a, b)
 d = HCX.hypercomplex_conjugate(c)
 ```
 
-For tensorflow to recognize the gradients of these operations, you must add the following lines after load_custom_op_library. Tensorflow currently only supports gradients defined in python.
+For tensorflow to recognize the gradients of these operations, you must add the following lines after load_op_library. Tensorflow currently only supports gradients defined in python.
 
 ```
 from tensorflow.python.framework import ops

@@ -11,14 +11,14 @@ The Shared Library included in this repository was compiled on 64-bit Ubuntu 16.
 
 ## Usage
 
-To use this library, you must first import tensorflow, and then import the op library using load_custom_op_library.
+To use this library, you must first import tensorflow, and then import the operator library using load_custom_op_library. This method returns a handle to the custom operations in our library.
 
 ```
 import tensorflow as tf
 HCX = tf.load_op_library("path/to/hypercomplex.so")
 ```
 
-You may then use hypercomplex operations in your tensorflow graphs. The final axis is always hypercomplex for efficiency.
+You may then use hypercomplex operations in your tensorflow graphs. For efficiency, the final axis of the input tensors is always considered the hypercomplex axis, and must be a power of 2.
 
 ```
 a = tf.Variable([0.1, -2.3, 7.2, 1.0])
@@ -27,7 +27,7 @@ c = HCX.hypercomplex_multiply(a, b)
 d = HCX.hypercomplex_conjugate(c)
 ```
 
-For tensorflow to recognize the gradients of these operations, add the following lines after load_custom_op_library.
+For tensorflow to recognize the gradients of these operations, you must add the following lines after load_custom_op_library. Tensorflow currently only supports gradients defined in python.
 
 ```
 @ops.RegisterGradient("HypercomplexConjugate")

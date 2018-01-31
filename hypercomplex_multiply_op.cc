@@ -10,72 +10,6 @@ namespace tensorflow {
     typedef Eigen::ThreadPoolDevice CPUDevice;
     typedef Eigen::GpuDevice GPUDevice;
 
-    void index_to_shape(
-        int* output,
-        int* shape,
-        int skip_axis,
-        int target,
-        int dims
-    ) {
-        if (skip_axis == 0) {
-            index_to_shape(
-                &(output[1]),
-                &(shape[1]),
-                (skip_axis - 1),
-                target,
-                (dims - 1));
-        } else if (dims < 1) {
-            return;
-        } else if (dims == 1) {
-            output[0] = target;
-        } else {
-            output[0] = target % shape[0];
-            index_to_shape(
-                &(output[1]),
-                &(shape[1]),
-                (skip_axis - 1),
-                (target / shape[0]),
-                (dims - 1));
-        }
-    }
-
-    int shape_to_index(
-        int* shape,
-        int* select,
-        int dims
-    ) {
-        int result = 0;
-        for (int i = 0; i < dims; i++) {
-            int buffer = select[i];
-            for (int j = i + 1; j < dims; j++) {
-                buffer *= shape[j];
-            } result += buffer;
-        } return result;
-    }
-
-    double get_helper(
-        double* input,
-        int* shape,
-        int hypercomplex_axis,
-        int hypercomplex_index,
-        int remaining_index,
-        int dims
-    ) {
-        int* select_shape = new int[dims];
-        select_shape[hypercomplex_axis] = hypercomplex_index;
-        index_to_shape(
-            select_shape,
-            shape,
-            hypercomplex_axis,
-            remaining_index,
-            dims);
-        int index = shape_to_index(
-            shape,
-            select_shape,
-            dims);
-        return input[index];
-    }
-
     bool* quick_conjugate(
         bool* input,
         const int length
@@ -174,13 +108,6 @@ namespace tensorflow {
                     input_left.shape().DebugString(),
                     " and ",
                     input_right.shape().DebugString()));
-
-            int num_dims = input_left.dims();
-            int target_axis = num_dims - 1;
-            int* shape = new int[num_dims];
-            for (int i = 0; i < num_dims; i++) {
-                shape[i] = input_left.dim_size(i);
-            }
 
             int hypercomplex_size = input_left.dim_size(input_left.dims() - 1);
             int remaining_size = 1;

@@ -2,7 +2,7 @@
 
 This project contains utility functions for manipulating vectors of hypertcomplkex numbers (uaternions, octonions, sedenions, etc). Currently only multiplication and conjugation are supported.
 
-Compiled with 64-bit Ubuntu 16.04, GCC 5.4, NVIDIA Driver 387, CUDA Toolkit 9.1, cuDNN 7.0.5, NVIDIA GeForce 1050 Ti.
+Compiled with 64-bit Ubuntu 16.04, GCC 5.4, NVIDIA Driver 387, CUDA Toolkit 9.1, cuDNN 7.0.5, NVIDIA GTX 1050 Ti.
 
 ## Setup
 

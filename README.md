@@ -38,18 +38,19 @@ d = HCX.hypercomplex_conjugate(c)
 For tensorflow to recognize the gradients of these operations, you must add the following lines after load_custom_op_library. Tensorflow currently only supports gradients defined in python.
 
 ```
+from tensorflow.python.framework import ops
+
 @ops.RegisterGradient("HypercomplexConjugate")
 def _hypercomplex_conjugate_grad(op, grad):
     return [HCX.hypercomplex_conjugate(grad)]
 
-
 @ops.RegisterGradient("HypercomplexMultiply")
 def _hypercomplex_multiply_grad(op, grad):
     return [
-    HCX.hypercomplex_multiply(
-        grad,
-        HCX.hypercomplex_conjugate(op.inputs[1])),
-    HCX.hypercomplex_multiply(
-        HCX.hypercomplex_conjugate(op.inputs[0]),
-        grad)]
+        HCX.hypercomplex_multiply(
+            grad,
+            HCX.hypercomplex_conjugate(op.inputs[1])),
+        HCX.hypercomplex_multiply(
+            HCX.hypercomplex_conjugate(op.inputs[0]),
+            grad)]
 ```
